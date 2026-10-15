@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Entrar · Gerencial Financeiro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap">
+<style>
+:root{
+  --bg:#F6F7F6; --surface:#FFFFFF; --head:#F8F8F8; --fg:#222826; --muted:#7A807D; --line:#E4E6E4;
+  --accent:#36A535; --accent-ink:#FFFFFF; --accent-soft:#EAF6EA; --accent-deep:#1F7A2A; --link:#1B7FC4;
+  --pag:#E3962A; --neg:#C8443A; --neg-soft:#FBECEA; --track:#ECEDEC;
+  --shadow:0 6px 24px rgba(20,30,25,.12);
+  --f-ui:"Lato","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131614; --surface:#1B1F1D; --head:#202523; --fg:#E8ECEA; --muted:#98A19C; --line:#2C3330;
+  --accent:#4CBF4B; --accent-ink:#0D190D; --accent-soft:#1F3320; --accent-deep:#16401B; --link:#62B1E8;
+  --pag:#EDA845; --neg:#F07B70; --neg-soft:#3A2220; --track:#2A302D; --shadow:0 6px 24px rgba(0,0,0,.5); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131614; --surface:#1B1F1D; --head:#202523; --fg:#E8ECEA; --muted:#98A19C; --line:#2C3330;
+  --accent:#4CBF4B; --accent-ink:#0D190D; --accent-soft:#1F3320; --accent-deep:#16401B; --link:#62B1E8;
+  --pag:#EDA845; --neg:#F07B70; --neg-soft:#3A2220; --track:#2A302D; --shadow:0 6px 24px rgba(0,0,0,.5); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:14px}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Moldura em duas colunas */
+.shell{min-height:100%;display:grid;place-items:center;padding:24px}
+.frame{width:100%;max-width:1320px;min-height:min(820px,calc(100vh - 48px));display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:16px;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow)}
+
+/* Coluna do login */
+.form{display:flex;flex-direction:column;padding:36px clamp(24px,5vw,72px) 20px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:-.01em}
+.brand .logo{width:32px;height:32px;border-radius:6px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink)}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:center;max-width:380px;width:100%;padding:40px 0}
+.lock{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 12px;border-radius:3px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;margin-bottom:20px}
+h1{margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em}
+.sub{margin:8px 0 32px;color:var(--muted);line-height:1.55}
+.btn{height:44px;width:100%;border-radius:3px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);font:700 14.5px var(--f-ui);display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;text-decoration:none;transition:filter .15s,transform .1s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:translateY(1px)}
+.btn .ms{width:24px;height:24px;border-radius:3px;background:#fff;display:grid;place-items:center}
+.or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px;margin:22px 0 14px;text-transform:uppercase;letter-spacing:.06em}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.help{color:var(--muted);line-height:1.55;font-size:13px;margin:0}
+.alert{background:var(--neg-soft);color:var(--neg);border-radius:3px;padding:12px 14px;line-height:1.5;margin:0 0 20px;font-size:13.5px}
+.alert b{display:block;margin-bottom:2px}
+.ghost{height:44px;width:100%;border-radius:3px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:700 14px var(--f-ui);display:flex;align-items:center;justify-content:center;text-decoration:none}
+.ghost:hover{background:var(--head)}
+.foot{color:var(--muted);font-size:12px}
+
+/* Coluna ilustrativa */
+.hero{position:relative;overflow:hidden;border-radius:4px;background:linear-gradient(155deg,var(--accent) 0%,#2B8F2E 55%,#1F7A2A 100%);color:#fff;padding:48px 52px}
+.hero::before{content:"";position:absolute;width:720px;height:720px;border-radius:50%;left:-260px;top:-300px;background:radial-gradient(closest-side,rgba(255,255,255,.14),rgba(255,255,255,0))}
+.hero::after{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-180px;bottom:-200px;border:60px solid rgba(255,255,255,.06)}
+.hero .hb{position:relative;display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;opacity:.95}
+.hero .hb span{width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,.18);display:grid;place-items:center}
+.hero h2{position:relative;margin:28px 0 10px;font-size:clamp(26px,2.3vw,34px);line-height:1.18;font-weight:700;letter-spacing:-.01em;max-width:440px}
+.hero p{position:relative;margin:0;max-width:400px;opacity:.85;line-height:1.55}
+
+/* Notebook inclinado com um resumo da Visão do período */
+.stage{position:absolute;left:26%;top:40%;width:900px;perspective:1800px;z-index:1}
+.laptop{transform:rotateX(14deg) rotateY(-24deg) rotateZ(-10deg);transform-origin:0 0;animation:lp 1s cubic-bezier(.2,.8,.2,1) .2s both}
+@keyframes lp{from{opacity:0;transform:translate(60px,40px) rotateX(14deg) rotateY(-24deg) rotateZ(-10deg)}}
+.lid{background:#1A1D1C;border-radius:18px;padding:14px;box-shadow:0 40px 80px rgba(0,0,0,.35)}
+.base{height:16px;margin:0 -40px;background:linear-gradient(#D6D9D7,#A9AEAB);border-radius:0 0 14px 14px}
+.scr{height:540px;border-radius:6px;overflow:hidden;background:#F6F7F6;color:#222826;font-family:var(--f-ui);font-size:11px}
+.m-top{height:40px;background:#fff;border-bottom:1px solid #E4E6E4;display:flex;align-items:center;gap:8px;padding:0 18px;font-weight:700;font-size:13px}
+.m-top i{width:20px;height:20px;border-radius:4px;background:#36A535;display:grid;place-items:center}
+.m-top em{margin-left:auto;font-style:normal;font-weight:400;color:#7A807D;font-size:10px}
+.m-fil{height:34px;background:#fff;border-bottom:1px solid #E4E6E4;display:flex;align-items:center;gap:6px;padding:0 18px;color:#7A807D;font-weight:700;font-size:10px}
+.m-fil b{height:22px;border:1px solid #E4E6E4;border-radius:3px;padding:0 8px;display:inline-flex;align-items:center;font-weight:400;color:#7A807D}
+.m-fil b strong{color:#222826;margin-left:4px}
+.m-body{padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.m-h{font-weight:700;font-size:13px}
+.m-card{background:#fff;border:1px solid #E4E6E4;border-radius:4px}
+.m-kpis{display:grid;grid-template-columns:repeat(4,1fr);padding:12px 0}
+.m-kpis div{padding:0 14px;border-left:1px solid #E4E6E4;display:flex;flex-direction:column;gap:3px}
+.m-kpis div:first-child{border-left:0}
+.m-kpis span{color:#7A807D;font-size:9.5px}
+.m-kpis b{font-size:14px;font-variant-numeric:tabular-nums}
+.m-kpis small{font-size:8.5px;color:#7A807D}
+.up{color:#36A535}.dn{color:#C8443A}
+.m-main{display:grid;grid-template-columns:1.5fr 1fr;gap:10px}
+.m-ph{padding:10px 12px 6px;font-weight:700;font-size:11.5px;display:flex;justify-content:space-between;align-items:center}
+.m-seg{display:inline-flex;border:1px solid #E4E6E4;border-radius:3px;font-weight:400;font-size:9px;overflow:hidden}
+.m-seg span{padding:3px 7px;color:#7A807D}.m-seg span:first-child{background:#EAF6EA;color:#36A535;font-weight:700}
+.m-tbl{width:100%;border-collapse:collapse;font-size:9.5px}
+.m-tbl th{background:#F8F8F8;color:#7A807D;font-weight:700;text-align:right;padding:5px 10px}
+.m-tbl th:first-child,.m-tbl td:first-child{text-align:left}
+.m-tbl td{padding:5px 10px;border-top:1px solid #EEF0EE;text-align:right;font-variant-numeric:tabular-nums}
+.m-tbl tr.g td{font-weight:700;background:#FAFBFA}
+.m-tbl td i{display:inline-block;height:5px;border-radius:2px;background:#36A535;vertical-align:middle;margin-right:6px}
+.m-side{display:flex;flex-direction:column;gap:10px}
+.m-leg{display:flex;gap:10px;font-weight:400;font-size:8.5px;color:#7A807D}.m-leg i{display:inline-block;width:10px;height:2px;margin-right:4px;vertical-align:middle}
+.m-list{padding:2px 12px 10px;display:flex;flex-direction:column;gap:7px}
+.m-list div{display:grid;grid-template-columns:1fr auto;gap:3px 8px;font-size:9.5px}
+.m-list u{grid-column:1/-1;height:4px;border-radius:2px;background:#ECEDEC;text-decoration:none;overflow:hidden}
+.m-list u i{display:block;height:100%;background:#E3962A}
+
+/* Transição de saída para a Microsoft */
+.going{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+.going p{margin:0;font-size:18px;font-weight:700}
+.going small{color:var(--muted)}
+body.leaving .going{opacity:1;visibility:visible;transition:opacity .45s ease}
+body.leaving .frame{transform:scale(.985);opacity:.6;transition:transform .45s,opacity .45s}
+
+/* Pena escrevendo no papel */
+.quill{color:var(--accent);overflow:visible}
+.quill .ln{stroke-dasharray:48;stroke-dashoffset:48;animation:qa 3.6s ease-in-out infinite}
+.quill .l1{animation-name:ql1}.quill .l2{animation-name:ql2}.quill .l3{stroke-dasharray:26;stroke-dashoffset:26;animation-name:ql3}
+@keyframes ql1{0%{stroke-dashoffset:48;opacity:1}25%,90%{stroke-dashoffset:0;opacity:1}98%{opacity:0;stroke-dashoffset:0}100%{opacity:0;stroke-dashoffset:48}}
+@keyframes ql2{0%,28%{stroke-dashoffset:48;opacity:1}53%,90%{stroke-dashoffset:0;opacity:1}98%{opacity:0;stroke-dashoffset:0}100%{opacity:0;stroke-dashoffset:48}}
+@keyframes ql3{0%,56%{stroke-dashoffset:26;opacity:1}72%,90%{stroke-dashoffset:0;opacity:1}98%{opacity:0;stroke-dashoffset:0}100%{opacity:0;stroke-dashoffset:26}}
+.quill .pen{animation:qp 3.6s ease-in-out infinite}
+@keyframes qp{0%{transform:translate(34px,38px)}25%{transform:translate(70px,38px)}28%{transform:translate(34px,50px)}53%{transform:translate(70px,50px)}56%{transform:translate(34px,62px)}72%,90%{transform:translate(52px,62px)}100%{transform:translate(34px,38px)}}
+.quill .pen-in{transform-origin:0 0;animation:qw .3s ease-in-out infinite alternate}
+@keyframes qw{from{transform:rotate(-4deg) translateY(0)}to{transform:rotate(3deg) translateY(-2px)}}
+.dots::after{content:"";display:inline-block;width:1.2em;text-align:left;animation:dt 1.2s steps(4) infinite}
+@keyframes dt{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+@media (prefers-reduced-motion:reduce){.quill .ln{stroke-dashoffset:0!important;animation:none}.quill .pen,.quill .pen-in{animation:none}.quill .pen{transform:translate(52px,62px)}.dots::after{animation:none;content:"…"}}
+
+
+@media (max-width:980px){.frame{grid-template-columns:minmax(0,1fr);min-height:0}.hero{display:none}.form{padding:28px 20px 16px}}
+@media (max-width:520px){.shell{padding:0}.frame{border:0;border-radius:0;box-shadow:none;min-height:100vh;padding:8px}}
+@media (prefers-reduced-motion:reduce){.laptop{animation:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+<div class="frame">
+  <section class="form">
+    <div class="brand"><span class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></span>Gerencial Financeiro</div>
+
+    <div class="mid">
+      <span class="lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2"/></svg>Acesso restrito</span>
+      <h1>Entre na sua conta</h1>
+      <p class="sub">Use seu e-mail corporativo Microsoft para acessar o painel gerencial.</p>
+
+      <div class="alert" id="negado" hidden><b>Acesso ainda não liberado</b><span id="negadoTxt"></span></div>
+
+      <a class="btn" id="entrar" href="/.auth/login/aad?post_login_redirect_uri=/">
+        <span class="ms"><svg width="14" height="14" viewBox="0 0 21 21" aria-hidden="true"><rect x="1" y="1" width="9" height="9" fill="#F25022"/><rect x="11" y="1" width="9" height="9" fill="#7FBA00"/><rect x="1" y="11" width="9" height="9" fill="#00A4EF"/><rect x="11" y="11" width="9" height="9" fill="#FFB900"/></svg></span>
+        Entrar com e-mail Microsoft
+      </a>
+      <a class="ghost" id="outra" href="/.auth/logout?post_logout_redirect_uri=/login.html" hidden>Sair e entrar com outra conta</a>
+
+      <div class="or">Acesso</div>
+      <p class="help">Somente usuários autorizados pelo administrador conseguem visualizar o painel. Se não tiver acesso, solicite ao responsável.</p>
+    </div>
+
+    <div class="foot">Autenticação protegida por Microsoft Entra ID</div>
+  </section>
+
+  <section class="hero" aria-hidden="true">
+    <div class="hb"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></span>Gerencial Financeiro</div>
+    <h2>Seus números financeiros, em um só lugar.</h2>
+    <p>Recebimentos, pagamentos e saldo por filial e classe gerencial, sempre atualizados.</p>
+
+    <div class="stage"><div class="laptop">
+      <div class="lid"><div class="scr">
+        <div class="m-top"><i><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></i>Gerencial Financeiro<em>Base atualizada em 15/10/2026 08:00</em></div>
+        <div class="m-fil">Filtros <b>Filial:<strong>Todas</strong></b><b>Categoria:<strong>Todas</strong></b><b>Classe:<strong>Todas</strong></b><b>Ano/Mês:<strong>2026</strong></b></div>
+        <div class="m-body">
+          <div class="m-h">Visão do período</div>
+          <div class="m-card m-kpis">
+            <div><span>Recebimentos</span><b>R$ 4.812.340,00</b><small><b class="up">▲ 8,2%</b> vs anterior</small></div>
+            <div><span>Pagamentos</span><b>R$ 3.905.118,00</b><small><b class="dn">▲ 4,1%</b> vs anterior</small></div>
+            <div><span>Saldo do período</span><b class="up">R$ 907.222,00</b><small><b class="up">▲ 31,5%</b> vs anterior</small></div>
+            <div><span>Comprometimento</span><b>81,1%</b><small><b class="up">▼ 3,1 p.p.</b> vs anterior</small></div>
+          </div>
+          <div class="m-main">
+            <div class="m-card">
+              <div class="m-ph">Matriz por classe<span class="m-seg"><span>Acumulado</span><span>Mês a mês</span></span></div>
+              <table class="m-tbl">
+                <tr><th>Classe</th><th>Valor</th><th>% total</th></tr>
+                <tr class="g"><td><i style="width:40px"></i>Receitas operacionais</td><td>4.812.340</td><td>100%</td></tr>
+                <tr><td>Vendas de serviços</td><td>3.204.110</td><td>66,6%</td></tr>
+                <tr><td>Vendas de produtos</td><td>1.608.230</td><td>33,4%</td></tr>
+                <tr class="g"><td><i style="width:30px;background:#E3962A"></i>Despesas operacionais</td><td>2.716.902</td><td>69,6%</td></tr>
+                <tr><td>Folha de pagamento</td><td>1.420.775</td><td>36,4%</td></tr>
+                <tr><td>Fornecedores</td><td>884.310</td><td>22,6%</td></tr>
+                <tr><td>Aluguel e ocupação</td><td>411.817</td><td>10,5%</td></tr>
+                <tr class="g"><td><i style="width:14px;background:#E3962A"></i>Impostos</td><td>812.004</td><td>20,8%</td></tr>
+                <tr class="g"><td><i style="width:8px;background:#E3962A"></i>Investimentos</td><td>376.212</td><td>9,6%</td></tr>
+              </table>
+            </div>
+            <div class="m-side">
+              <div class="m-card">
+                <div class="m-ph">Decorrer dos meses<span class="m-leg"><span><i style="background:#36A535"></i>Receb.</span><span><i style="background:#E3962A"></i>Pag.</span></span></div>
+                <svg viewBox="0 0 300 110" width="100%" style="display:block;padding:0 8px 8px">
+                  <g stroke="#ECEDEC"><line x1="0" y1="20" x2="300" y2="20"/><line x1="0" y1="50" x2="300" y2="50"/><line x1="0" y1="80" x2="300" y2="80"/></g>
+                  <polyline fill="none" stroke="#36A535" stroke-width="2.5" stroke-linejoin="round" points="5,70 40,58 75,62 110,44 145,50 180,36 215,40 250,24 290,28"/>
+                  <polyline fill="none" stroke="#E3962A" stroke-width="2.5" stroke-linejoin="round" points="5,82 40,76 75,78 110,66 145,70 180,60 215,64 250,54 290,56"/>
+                  <circle cx="290" cy="28" r="3.5" fill="#36A535"/><circle cx="290" cy="56" r="3.5" fill="#E3962A"/>
+                </svg>
+              </div>
+              <div class="m-card">
+                <div class="m-ph">Maiores pagamentos</div>
+                <div class="m-list">
+                  <div><span>Folha de pagamento</span><b>1.420.775</b><u><i style="width:100%"></i></u></div>
+                  <div><span>Fornecedores</span><b>884.310</b><u><i style="width:62%"></i></u></div>
+                  <div><span>Impostos</span><b>812.004</b><u><i style="width:57%"></i></u></div>
+                  <div><span>Aluguel e ocupação</span><b>411.817</b><u><i style="width:29%"></i></u></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+      <div class="base"></div>
+    </div></div>
+  </section>
+</div>
+</div>
+
+<div class="going" aria-live="polite">
+  <svg class="quill" viewBox="0 0 120 100" width="120" height="100" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 16h48a6 6 0 0 1 6 6v54a8 8 0 0 1-8 8H26"/>
+    <path d="M30 16a6 6 0 0 0-6 6v6h10"/>
+    <path d="M26 84a8 8 0 0 1-8-8v-4h48v4a8 8 0 0 0 8 8"/>
+    <path class="ln l1" d="M34 38q3-3 6 0t6 0 6 0 6 0 6 0 6 0"/>
+    <path class="ln l2" d="M34 50q3-3 6 0t6 0 6 0 6 0 6 0 6 0"/>
+    <path class="ln l3" d="M34 62q3-3 6 0t6 0 6 0"/>
+  </g>
+  <g class="pen"><g class="pen-in" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 0C5-13 16-27 30-34C28-20 17-7 0 0Z" fill="var(--surface)"/>
+    <path d="M0 0L22-24M10-12l8 1M15-18l9 0M20-24l7-2"/>
+  </g></g>
+</svg>
+
+  <p class="dots">Abrindo o login da Microsoft</p>
+  <small>Você volta para o painel logo depois de entrar.</small>
+</div>
+
+<script>
+(function(){
+  const entrar=document.getElementById('entrar');
+  entrar.addEventListener('click',e=>{
+    if(e.metaKey||e.ctrlKey||e.shiftKey)return;
+    e.preventDefault();
+    document.body.classList.add('leaving');
+    const go=()=>location.assign(entrar.href);
+    matchMedia('(prefers-reduced-motion:reduce)').matches?go():setTimeout(go,900);
+  });
+  // Ao voltar pelo botão "voltar" do navegador, desfaz a transição
+  addEventListener('pageshow',()=>document.body.classList.remove('leaving'));
+  fetch('/.auth/me',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
+    const p=j&&j.clientPrincipal;if(!p)return;
+    if((p.userRoles||[]).includes('leitor')){location.replace('/');return}
+    document.getElementById('negado').hidden=false;
+    document.getElementById('negadoTxt').textContent=`A conta ${p.userDetails} entrou, mas ainda não tem permissão para ver o painel. Peça acesso ao administrador.`;
+    entrar.hidden=true;document.getElementById('outra').hidden=false;
+  }).catch(()=>{});
+})();
+</script>
+</body>
+</html>
